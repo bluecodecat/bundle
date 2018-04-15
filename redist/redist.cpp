@@ -12,7 +12,7 @@
 // }
 
 // disable MSVC warnings {
-#if defined(_WIN32)
+#ifdef _MSC_VER
 #pragma warning(disable:4334)
 #pragma warning(disable:4309)
 #pragma warning(disable:4267)
