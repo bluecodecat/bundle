@@ -365,7 +365,7 @@ namespace bundle
                 auto start = std::chrono::steady_clock::now();
                 pack( encoding, r.packed, original );
                 auto end = std::chrono::steady_clock::now();
-                r.enctime = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+                r.enctime = (double)std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
 #endif
                 r.ratio = 100 - 100 * ( double( r.packed.size() ) / original.size() );
                 if( encoding != RAW )
@@ -384,7 +384,7 @@ namespace bundle
                 auto start = std::chrono::steady_clock::now();
                 unpack( unpacked, r.packed );
                 auto end = std::chrono::steady_clock::now();
-                r.dectime = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+                r.dectime = (double)std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
 #endif
                 if( encoding != RAW )
                 r.pass = r.pass && (do_verify ? original == unpacked : r.pass);
@@ -410,7 +410,7 @@ namespace bundle
         for( auto end = measures.size(), it = end - end; it < end; ++it ) {
             auto &r = measures[ it ];
             if( r.pass && r.ratio >= pct_treshold_to_skip_compression ) {
-                q[ r.ratio ].insert( it );
+                q[ r.ratio ].insert( (unsigned int)it );
             }
         }
         std::vector<unsigned> v;
@@ -428,7 +428,7 @@ namespace bundle
         for( auto end = measures.size(), it = end - end; it < end; ++it ) {
             auto &r = measures[ it ];
             if( r.pass ) {
-                q[ r.enctime ].insert( it );
+                q[ r.enctime ].insert( (unsigned int)it );
             }
         }
         std::vector<unsigned> v;
@@ -446,7 +446,7 @@ namespace bundle
         for( auto end = measures.size(), it = end - end; it < end; ++it ) {
             auto &r = measures[ it ];
             if( r.pass ) {
-                q[ r.dectime ].insert( it );
+                q[ r.dectime ].insert( (unsigned int)it );
             }
         }
         std::vector<unsigned> v;
@@ -464,7 +464,7 @@ namespace bundle
         for( auto end = measures.size(), it = end - end; it < end; ++it ) {
             auto &r = measures[ it ];
             if( r.pass ) {
-                q[ r.enctime + r.dectime ].insert( it );
+                q[ r.enctime + r.dectime ].insert( (unsigned int)it );
             }
         }
         std::vector<unsigned> v;
